@@ -1,10 +1,10 @@
 import { fetchBreeds, fetchCatByBreeds } from "./cat-api.js";
+import Notiflix from "notiflix"; // Імпорт бібліотеки Notiflix
 
 const selectors = {
   breedSelect: document.querySelector('.breed-select'),
   catInfo: document.querySelector('.cat-info'),
   loader: document.querySelector('.loader'),
-  error: document.querySelector('.error'),
 };
 
 function createMarkupBreeds(arr) {
@@ -21,24 +21,13 @@ function hideLoader() {
   selectors.loader.classList.add('hidden');
 }
 
-function showElement(element) {
-  element.classList.remove('hidden');
-}
-
-function hideElement(element) {
-  element.classList.add('hidden');
-}
-
+// Функція для показу помилки з використанням Notiflix
 function showError() {
-  Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');;
-}
-
-function hideError() {
-  hideElement(selectors.error);
+  Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
 }
 
 // Приховуємо елемент помилки спочатку
-hideError();
+hideLoader();
 
 // Покажемо завантажувач під час запиту за списком порід
 showLoader();
@@ -55,8 +44,7 @@ fetchBreeds()
       if (selectedBreedId) {
         // Покажемо завантажувач під час запиту за інформацією про кота
         showLoader();
-        hideElement(selectors.catInfo);
-        hideError(); // Приховуємо елемент помилки перед новим запитом
+        selectors.catInfo.innerHTML = ''; // Очистимо вміст блока з інформацією про кота
 
         // Викликаємо функцію для отримання даних про кота за ідентифікатором породи
         fetchCatByBreeds(selectedBreedId)
@@ -71,7 +59,6 @@ fetchBreeds()
                 <p><strong>Description:</strong> ${catData[0].breeds[0].description}</p>
                 <p><strong>Temperament:</strong> ${catData[0].breeds[0].temperament}</p>
               `;
-              showElement(selectors.catInfo);
             } else {
               console.log("No cat data available for the selected breed.");
             }

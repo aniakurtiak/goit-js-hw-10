@@ -18,6 +18,10 @@
     animation: rotate 2s linear infinite;
 }
 
+.hidden {
+    display: none;
+}
+
 @keyframes rotate {
     0% {
         transform: rotate(0)
