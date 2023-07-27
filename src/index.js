@@ -1,5 +1,8 @@
 import { fetchBreeds, fetchCatByBreeds } from "./cat-api.js";
-import Notiflix from "notiflix"; // Імпорт бібліотеки Notiflix
+import Notiflix from "notiflix"; // Імпорт бібліотеки Notiflix;
+// import SlimSelect from "slim-select";
+//  import "slim-select/dist/slimselect.js"
+import Choices from 'choices.js';
 
 const selectors = {
   breedSelect: document.querySelector('.breed-select'),
@@ -36,8 +39,13 @@ fetchBreeds()
   .then(breeds => {
     // Заховаємо завантажувач після успішного запиту
     hideLoader();
-    selectors.breedSelect.innerHTML = createMarkupBreeds(breeds);
-
+      selectors.breedSelect.innerHTML = createMarkupBreeds(breeds);
+      const choices = new Choices(selectors.breedSelect, {
+      searchEnabled: false, // Включити або виключити пошук у списку
+      itemSelectText: '', // Текст, що відображається після вибору опції
+      shouldSort: false, // Сортувати опції за алфавітом
+      // Додаткові налаштування тут...
+    });
     // Додаємо обробник події для селекту
     selectors.breedSelect.addEventListener("change", event => {
       const selectedBreedId = event.target.value;
