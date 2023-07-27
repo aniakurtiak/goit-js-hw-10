@@ -33,27 +33,26 @@ hideLoader();
 
 fetchBreeds()
   .then(breeds => {
-    hideLoader(); // Hide loader after fetching the breeds
     selectors.breedSelect.innerHTML = createMarkupBreeds(breeds);
-    
-      const choices = new Choices(selectors.breedSelect, {
-      searchEnabled: false, 
+
+    const choices = new Choices(selectors.breedSelect, {
+      searchEnabled: false,
       itemSelectText: '',
-      shouldSort: false, 
-      });
-    
+      shouldSort: false,
+    });
+
     selectors.breedSelect.addEventListener("change", event => {
       const selectedBreedId = event.target.value;
       if (selectedBreedId) {
-        showLoader();
+        showLoader(); 
         selectors.catInfo.innerHTML = '';
-
+        
         fetchCatByBreeds(selectedBreedId)
           .then(catData => {
-            hideLoader();
+            hideLoader(); 
             if (catData) {
               selectors.catInfo.innerHTML = `
-                <img src="${catData[0].url}" alt="Cat" width = "400">
+                <img src="${catData[0].url}" alt="Cat" width="400">
                 <h3>${breeds.find(breed => breed.id === selectedBreedId).name}</h3>
                 <p><strong>Description:</strong> ${catData[0].breeds[0].description}</p>
                 <p><strong>Temperament:</strong> ${catData[0].breeds[0].temperament}</p>
@@ -68,6 +67,8 @@ fetchBreeds()
           });
       }
     });
+
+    hideLoader(); 
   })
   .catch(error => {
     console.error("Error:", error);
