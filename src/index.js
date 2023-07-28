@@ -29,11 +29,11 @@ function showError() {
   Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!');
 }
 
-hideLoader();
-
+showLoader()
 fetchBreeds()
   .then(breeds => {
     selectors.breedSelect.innerHTML = createMarkupBreeds(breeds);
+    
 
     const choices = new Choices(selectors.breedSelect, {
       searchEnabled: false,
@@ -41,8 +41,10 @@ fetchBreeds()
       shouldSort: false,
     });
 
+    hideLoader()
     selectors.breedSelect.addEventListener("change", event => {
       const selectedBreedId = event.target.value;
+      
       if (selectedBreedId) {
         showLoader(); 
         selectors.catInfo.innerHTML = '';
